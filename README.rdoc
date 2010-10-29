@@ -11,17 +11,21 @@ Target browsers ars:
 * opera 11
 * and as many mobile browsers as possible
 
-= The global "The"-Object
+= The global "The"-Object:
 	
-	window.$ === window.The
+  window.$ === window.The
 	
-	ready(fn): ( The.ready(fn) ) document is loaded
-	ext(a,b): extend object "a" with object "b"
-	wait(fn,millisec): same as window.setTimeout() but returns a function you can call to clear the timeout 
-	use(lib,cb,target,supports): include a lib "lib" (without the extension .js), if it not exists and call the callback, "target" is the object who will supports "support" if the lib is loaded (to indicate if its loaded)
-		  on default, the lib is in the same directory as the The.js-Script, "target" is window and supports is the same as "lib"
-	extEl(obj): extend Elements and an NodeLists
-	fn(): a functions who retruns its argument
+  ready(fn): ( The.ready(fn) ) document is loaded
+  ext(a,b): extend object "a" with object "b"
+  wait(fn,millisec): same as window.setTimeout() but returns a function you can call to clear the timeout 
+  extEl(obj): extend Elements and an NodeLists
+  fn(): a functions who retruns its argument
+  use(lib,cb,target,supports): 
+      include a lib "lib" (without the extension .js), if it not exists 
+      and call the callback, "target" is the object who will supports "support" 
+      if the lib is loaded (to indicate if its loaded).
+      On default, the lib is in the same directory as the The.js-Script, 
+      "target" is window and supports is the same as "lib"
 
 = Element functions:
 
@@ -30,14 +34,14 @@ Target browsers ars:
   els(selector): get all child Element matching the selector
   rm(): remove ths element
 
-	css(name,value): set or get ths a css property
+  css(name,value): set or get ths a css property
 
-	hasCl(class): checks a class name
-	addCl(class): adds a class name
-	rmCl(class): removes a class name
+  hasCl(class): checks a class name
+  addCl(class): adds a class name
+  rmCl(class): removes a class name
 
-	on(type, function): add an event listener and remove a function you can call to remove the event listener
-	no(type, function): removes an event listener
+  on(type, function): add an event listener and remove a function you can call to remove the event listener
+  no(type, function): removes an event listener
   dlg(selector, type, function): make event delegation
   fire(type): triggers an event	
 
@@ -47,6 +51,22 @@ Target browsers ars:
   lst(): returns the last Element-Child
   p(): returns the parentElement
   ch(selector): returns the child-elements, if selector is defined only childs witch matched the selector
+
+= Function functions:
+  each(): 
+      return a function that calls itself over all its instance-properties
+  rThis():
+      return a function that returns its instance if it returns nothing (undefined)
+	ignoreUntil(min,max):
+      waits for the execution of the function (min) and then 
+      executes the last call, but waits maximal (max) millisecunds if max is set
+  args():
+			returns the function with defined arguments
+	  
+= String functions:
+  camelize(): returns a camelized string for use in css
+  contains(string,[separator]): checks if the string contains the string passed 
+  rpl(): shot for replace()
 
 = help!
 
