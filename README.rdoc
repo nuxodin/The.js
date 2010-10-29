@@ -2,7 +2,7 @@
 
 The.js is a javascript-framework for new Browsers only with a special look for mobile-support 
 
-Target browsers are:
+Target browsers ars:
 
 * chrome 8
 * safari 5
@@ -57,11 +57,11 @@ Target browsers are:
       return a function that calls itself over all its instance-properties
   rThis():
       return a function that returns its instance if it returns nothing (undefined)
-	ignoreUntil(min,max):
+  ignoreUntil(min,max):
       waits for the execution of the function (min) and then 
       executes the last call, but waits maximal (max) millisecunds if max is set
   args():
-			returns the function with defined arguments
+      returns the function with defined arguments
 	  
 = String functions:
   camelize(): returns a camelized string for use in css
