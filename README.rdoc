@@ -2,7 +2,7 @@
 
 The.js is a javascript-framework for new Browsers only with a special look for mobile-support 
 
-Target browsers ars:
+Target browsers are:
 
 * chrome 8
 * safari 5
