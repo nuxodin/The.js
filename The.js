@@ -145,10 +145,10 @@ The = function(){
             ).bind(this)(sel)
         ) && this; 
     },
-    pv: function(){return this.previousElementSibling},
-    nx: function(){ return this.nextElementSibling },
-    ft: function(){ return this.firstElementChild },
-    lt: function(){ return this.lastElementChild },
+    prv: function(){return this.previousElementSibling},
+    nxt: function(){ return this.nextElementSibling },
+    fst: function(){ return this.firstElementChild },
+    lst: function(){ return this.lastElementChild },
     p: function(){ return this.parentNode },
     ch: function(sel){ return !sel ? this.children : this.ch().is(sel) },
     rm: function(){ return this.p().removeChild(this) },

@@ -1,0 +1,55 @@
+== The.js, the small, fast javascript-framework for newer Browsers
+
+The.js is a javascript-framework for new Browsers only with a special look for mobile-support 
+
+Target browsers ars:
+
+* chrome 8
+* safari 5
+* firefox 4
+* ie9
+* opera 11
+* and as many mobile browsers as possible
+
+= The global "The"-Object
+	
+	window.$ === window.The
+	
+	ready(fn): ( The.ready(fn) ) document is loaded
+	ext(a,b): extend object "a" with object "b"
+	wait(fn,millisec): same as window.setTimeout() but returns a function you can call to clear the timeout 
+	use(lib,cb,target,supports): include a lib "lib" (without the extension .js), if it not exists and call the callback, "target" is the object who will supports "support" if the lib is loaded (to indicate if its loaded)
+		  on default, the lib is in the same directory as the The.js-Script, "target" is window and supports is the same as "lib"
+	extEl(obj): extend Elements and an NodeLists
+	fn(): a functions who retruns its argument
+
+= Element functions:
+
+  is(selector): returns false or the element itself if it matches the selector
+  el(selector): get the first child element matching the selector
+  els(selector): get all child Element matching the selector
+  rm(): remove ths element
+
+	css(name,value): set or get ths a css property
+
+	hasCl(class): checks a class name
+	addCl(class): adds a class name
+	rmCl(class): removes a class name
+
+	on(type, function): add an event listener and remove a function you can call to remove the event listener
+	no(type, function): removes an event listener
+  dlg(selector, type, function): make event delegation
+  fire(type): triggers an event	
+
+  prv(): returns the previous Element
+  nxt(): returns the next Element
+  fst(): returns the first Element-Child
+  lst(): returns the last Element-Child
+  p(): returns the parentElement
+  ch(selector): returns the child-elements, if selector is defined only childs witch matched the selector
+
+= help!
+
+Help improve it, make plugins and fork it on github!!
+
+Have a nice day!

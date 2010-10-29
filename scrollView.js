@@ -32,7 +32,7 @@ The(function($){
       duration:function(){ return f.start.t - f.last.t; },
     }
     ,s = function(ev){
-  		f.start = f.last = getPoint(ev);
+			f.start = f.last = getPoint(ev);
   		f.diff = {x:0,y:0,t:0};
     	el.on('touchmove',m);
     	el.on('touchend',e);
@@ -114,8 +114,7 @@ The(function($){
     }
   }
   
-  
-  
+
   scrollView = function(el,opts){
     this.init(el,opts);
   }
