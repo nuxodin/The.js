@@ -13,9 +13,9 @@ Target browsers ars:
 
 = The global "The"-Object:
 	
-	The('myElement'): get elements by id
+  The('myElement'): get elements by id
 
-	The(fn):
+  The(fn):
     applay a function to make a proper namespace for your code and plugins:
     The(function($){
       $.yourCode = here
