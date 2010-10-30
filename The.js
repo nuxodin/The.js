@@ -111,7 +111,7 @@ The = function(){
       }
     });
     //tmp.setAttribute('async', 'true');
-    d.documentElement.ft().appendChild(tmp);
+    d.documentElement.fst().appendChild(tmp);
     //d.documentElement.firstChild.appendChild(tmp); wieso geht das beim google-analytics-script??
   }
 
@@ -145,14 +145,21 @@ The = function(){
             ).bind(this)(sel)
         ) && this; 
     },
-    prv: function(){return this.previousElementSibling},
-    nxt: function(){ return this.nextElementSibling },
-    fst: function(){ return this.firstElementChild },
-    lst: function(){ return this.lastElementChild },
-    p: function(){ return this.parentNode },
-    ch: function(sel){ return !sel ? this.children : this.ch().is(sel) },
-    rm: function(){ return this.p().removeChild(this) },
-    on: function(ev,cb){
+    _walk: function(operation,sel,incMe,un){
+			return incMe && this.is(sel)
+			? un 
+			: (un=this[operation]) && ( sel ? un._walk(operation,sel,1) : un ); 
+      //n = this[operation];
+			//return sel ? incMe && this.is(sel) || n && n._walk(operation,sel,1) : n; // old version
+		},
+    fst: function(sel, n){ n = this.firstElementChild; return sel ? n && n.nxt(sel,1) : n },
+    lst: function(sel, n){ n = this.lastElementChild;  return sel ? n && n.prv(sel,1) : n },
+    prv: function(sel,incMe){ return this._walk('previousElementSibling',sel,incMe) },
+    nxt: function(sel,incMe){ return this._walk('nextElementSibling',sel,incMe) },
+    p:   function(sel,incMe){ return this._walk('parentNode',sel,incMe); },
+    ch:  function(sel){ return sel ? this.ch().is(sel) : this.children },
+    rm:  function(){ return this.p().removeChild(this) },
+    on:  function(ev,cb){
       //this.addEventListener(ev, function(e){ var x = {}; $.ext(x,e); cb(x) }, false); // ie9
       this.addEventListener(ev, cb, false);
       return this.no.bind(this).args(ev,cb);

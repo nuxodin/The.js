@@ -115,6 +115,10 @@ article > div {
         </div>
     </div>
   	<script type="text/javascript">
+  		console.log( $('inhaltsStreifen').p('div') )
+  		console.log( $('inhaltsStreifen').p('#inhaltsStreifen') )
+  		console.log( $('inhaltsStreifen').p('#inhaltsStreifen',1) )
+  	
       The.use('scrollView',function(sView){
         var ssPages = new sView('inhaltsStreifen',{speed:1.8});
         var ssNavi = new sView('pages');
