@@ -1,4 +1,5 @@
 // useful: http://kangax.github.com/es5-compat-table/
+// features detect styles: document.documentElement.style.MozTransform !== undefined
 
 The = function(){
   var undf, k, d=document, w=window, slice=[].slice,
