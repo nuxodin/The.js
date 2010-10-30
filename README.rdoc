@@ -45,8 +45,8 @@ Target browsers ars:
 
   css(name,value): set or get ths a css property
 
-  hasCl(class): checks a class name
-  addCl(class): adds a class name
+  hsCl(class): checks a class name
+  adCl(class): adds a class name
   rmCl(class): removes a class name
 
   on(type, function): add an event listener and remove a function you can call to remove the event listener
@@ -54,12 +54,14 @@ Target browsers ars:
   dlg(selector, type, function): make event delegation
   fire(type): triggers an event	
 
-  prv(): returns the previous Element
-  nxt(): returns the next Element
-  fst(): returns the first Element-Child
-  lst(): returns the last Element-Child
-  p(): returns the parentElement
-  ch(selector): returns the child-elements, if selector is defined only childs witch matched the selector
+  prv(selector,incMe): returns the previous Element. 
+	    If selector is defined ths first Element matching it. 
+      If incMe defined it tests the selector also for the node itself. 
+  nxt(selector,incMe): returns the next Element. Other attributes see "prv()"
+  p(selector,incMe): returns the parentNode. Other attributes see "prv()"
+  fst(selector): returns the first Element-Child. "selector" see "prv()"
+  lst(selector): returns the last Element-Child.  "selector" see "prv()"
+  ch(selector): returns the child-elements. If selector is defined only childs witch matched the selector
 
 = Function functions:
   each(): 
