@@ -312,23 +312,4 @@ jQuery = function(){
 
   return $;
 }(The);
-
-mootools = function(_){
-	_.extEl({
-	  addEvent:HTMLElement.prototype.on,
-	  removeEvent:HTMLElement.prototype.no,
-	  hasClass:HTMLElement.prototype.hsCl,
-	  addClass:HTMLElement.prototype.adCl,
-	  removeClass:HTMLElement.prototype.rmCl,
-	  getParent:HTMLElement.prototype.p,
-	  getNext:HTMLElement.prototype.nx,
-	  getPrevious:HTMLElement.prototype.pv,
-	  getFirst:HTMLElement.prototype.ft,
-	  last:HTMLElement.prototype.lt,
-	  setStyle:HTMLElement.prototype.css,
-	  getStyle:HTMLElement.prototype.css,
-	  getElement:HTMLElement.prototype.el,
-	  getElements:HTMLElement.prototype.els
-	})
-}(The);
 */
