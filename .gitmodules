@@ -1,3 +1,6 @@
 [submodule "Zepto"]
 	path = Zepto
 	url = git@github.com:nuxodin/Zepto.git
+[submodule "mootls"]
+	path = mootls
+	url = git@github.com:nuxodin/mootls.git
