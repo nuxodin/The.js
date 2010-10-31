@@ -1,0 +1,3 @@
+[submodule "Zepto"]
+	path = Zepto
+	url = git@github.com:nuxodin/Zepto.git
