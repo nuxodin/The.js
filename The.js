@@ -160,6 +160,8 @@ The = function(){
     p:   function(sel,incMe){ return this._walk('parentNode',sel,incMe); },
     ch:  function(sel){ return sel ? this.ch().is(sel) : this.children },
     rm:  function(){ return this.p().removeChild(this) },
+    hs: function(el){ return this.contains ? this.contains(el) : (this.compareDocumentPosition(el)&16) }
+    ad: function(el){ this.appendChild(el); }
     on:  function(ev,cb){
       //this.addEventListener(ev, function(e){ var x = {}; $.ext(x,e); cb(x) }, false); // ie9
       this.addEventListener(ev, cb, false);
