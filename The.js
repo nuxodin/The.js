@@ -96,7 +96,7 @@ The = function(){
       HTMLCollection.prototype[k] = NodeList.prototype[k] = src[k].rThis().each();
     }
   }
-  $.ready= function(fn){ d.readyState==='complete'?fn():$(d).bind('DOMContentLoaded',fn); }
+  $.ready= function(fn){ d.readyState==='complete'?fn():d.on('DOMContentLoaded',fn); }
   $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); }
   $.use= function(lib,cb,supports,target){
     var self = $.use;
