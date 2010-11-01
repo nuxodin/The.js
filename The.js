@@ -1,5 +1,12 @@
 // useful: http://kangax.github.com/es5-compat-table/
 // features detect styles: document.documentElement.style.MozTransform !== undefined
+//
+// Object.prototype.forIn = function(callback, self){
+//     for(var key in this)
+//         if(this.hasOwnProperty(key) && callback.call(self || this, this[key], key, this) === false)
+//             break;
+// };
+// 
 
 The = function(){
   var undf, k, d=document, w=window, slice=[].slice,
@@ -80,7 +87,7 @@ The = function(){
     $.get(url, function(json){ success(JSON.parse(json)) });
   };
 */
-  function $(n){ return n.rThis ? n($) : d.getElementById(n) }
+  function $(n){ return n.rThis ? n($) : ( n.p ? n : d.getElementById(n) ) }
   $.fn = function(v){return v}
   $.ext = function(target, src){ target=target||{}; for(k in src) !target[k] && (target[k] = src[k]); return target; };
   $.extEl = function(src){
@@ -115,13 +122,13 @@ The = function(){
     d.documentElement.fst().appendChild(tmp);
     //d.documentElement.firstChild.appendChild(tmp); wieso geht das beim google-analytics-script??
   }
-
+  $.cEl = function(tag){ return document.createElement(tag) }
   for( k in Ext ){ $.ext(w[k].prototype,Ext[k]); }
   $.extEl({
     css: function(prop, value){
       if(prop.trim) {
-        //        if(value === undf) return this.style[prop.camelize()] || this.style[(vendor+'-'+prop).camelize()];
-        if(value === undf) return (getComputedStyle(this,null).getPropertyValue(prop) || getComputedStyle(this,null).getPropertyValue('-'+vendor+'-'+prop))+'';
+        if(value === undf) return (getComputedStyle(this,null).getPropertyValue(prop) || getComputedStyle(this,null).getPropertyValue('-'+vendor+'-'+prop) )+'';
+        //if( /^[0-9]+$/.test(value+'') ){ value += 'px' }
         this.style.cssText += ';'+prop+":"+value+';-'+vendor+'-'+prop+':'+value;
 	    } else for(k in prop) this.css(k,prop[k]);
     },
@@ -176,7 +183,9 @@ The = function(){
         while(el && !el.is(sel)) el = el.p();
         if(el && !(el===this) && !(el===d)) cb(el, ev);
       });
-    }
+    },
+    show:function(){ this.css('display','block') },
+    hide:function(){ this.css('display','none') }
   });
   var t = d.els('script');
   $.use.path = t[t.length-1].src.rpl(/\/[^\/]+$/,'/');
@@ -207,4 +216,3 @@ The = function(){
   w.$||(w.$=$);
   return $;
 }();
-
