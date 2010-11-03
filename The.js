@@ -39,9 +39,7 @@ The = function(){
         var fn = this;
         return function(){
           var args = arguments, ret = [];
-
-//          slice.call(this).forEach( function(el){
-          $.each(this, function(el){
+          slice.call(this).forEach( function(el){
             var v = fn.apply(el,args);
             v && ret.push(v);
           })
