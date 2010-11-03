@@ -39,7 +39,9 @@ The = function(){
         var fn = this;
         return function(){
           var args = arguments, ret = [];
-          slice.call(this).forEach( function(el){
+
+//          slice.call(this).forEach( function(el){
+          $.each(this, function(el){
             var v = fn.apply(el,args);
             v && ret.push(v);
           })
@@ -132,6 +134,12 @@ The = function(){
         this.style.cssText += ';'+prop+":"+value+';-'+vendor+'-'+prop+':'+value;
 	    } else for(k in prop) this.css(k,prop[k]);
     },
+    attr: function(name,value){
+      if(name.trim){
+        if(value===undf) return this.getAttribute(name);
+        this.setAttribute(name,value);
+      } else for(k in name) this.attr(k,name[k]);
+    },
     anim: function(props, dur, ease){
       //props.transform && (props.transform += ' '+this.css('transform'));
       props.transition = 'all '+(dur||0.5)+'s '+(ease||'');
@@ -147,9 +155,7 @@ The = function(){
         return (
           sel.dlg ? sel===this 
           : (
-              this.matchesSelector
-              ||this[vendor+'MatchesSelector']
-              || function(){ return d.body.els(sel).is(this).length}
+              this.matchesSelector||this[vendor+'MatchesSelector']||function(){ return d.body.els(sel).is(this).length}
             ).bind(this)(sel)
         ) && this; 
     },
@@ -157,8 +163,6 @@ The = function(){
 			return incMe && this.is(sel)
 			? un 
 			: (un=this[operation]) && ( sel ? un._walk(operation,sel,1) : un ); 
-      //n = this[operation];
-			//return sel ? incMe && this.is(sel) || n && n._walk(operation,sel,1) : n; // old version
 		},
     fst: function(sel, n){ n = this.firstElementChild; return sel ? n && n.nxt(sel,1) : n },
     lst: function(sel, n){ n = this.lastElementChild;  return sel ? n && n.prv(sel,1) : n },
@@ -168,7 +172,10 @@ The = function(){
     ch:  function(sel){ return sel ? this.ch().is(sel) : this.children },
     rm:  function(){ return this.p().removeChild(this) },
     hs: function(el){ return this.contains ? this.contains(el) : (this.compareDocumentPosition(el)&16) },
-    ad: function(el){ this.appendChild(el); },
+    ad: function(el,who){
+      var trans = {after:'afterEnd',bottom:'beforeEnd',before:'beforeBegin',top:'afterBegin'}
+      this['insertAdjacent'+(el.p?'Element':'HTML')](trans[who||'bottom'],el)
+    },
     on:  function(ev,cb){
       //this.addEventListener(ev, function(e){ var x = {}; $.ext(x,e); cb(x) }, false); // ie9
       this.addEventListener(ev, cb, false);
