@@ -79,6 +79,9 @@ Target browsers ars:
   contains(string,[separator]): checks if the string contains the string passed 
   rpl(): shot for replace()
 
+= Thanks!
+  The.js is inspired by Zepto, jQuery, Mootools and others
+
 = help!
 
 Help improve it, make plugins and fork it on github!!
