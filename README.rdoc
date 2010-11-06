@@ -58,7 +58,7 @@ Target browsers ars:
   fire(type): triggers an event	
 
   prv(selector,incMe): returns the previous Element. 
-	    If selector is defined ths first Element matching it. 
+      If selector is defined ths first Element matching it. 
       If incMe defined it tests the selector also for the node itself. 
   nxt(selector,incMe): returns the next Element. Other attributes see "prv()"
   p(selector,incMe): returns the parentNode. Other attributes see "prv()"
