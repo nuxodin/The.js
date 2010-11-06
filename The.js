@@ -8,8 +8,9 @@
 // };
 // 
 
+
 The = function(){
-  var undf, k, d=document, w=window, slice=[].slice,
+	var undf, k, d=document, w=window, slice=[].slice,
   vendor = w.controllers?'moz':(w.opera?'o':(d.all?'ms':'webkit'))
   ,Ext = {
     String:{
@@ -99,30 +100,28 @@ The = function(){
   $.ready= function(fn){ d.readyState==='complete'?fn():d.on('DOMContentLoaded',fn); }
   $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); }
   $.use= function(lib,cb,supports,target){
-    var self = $.use;
-    target = target||window;
+    var cbs = $.use.cbs;
+    target = target||w;
     supports = supports||lib;
-    cb=cb||function(){};
-
-    if( target[supports] ){ // loadet
-      return cb( target[supports] );
-    }
-    if( self.cbs[lib] ){ // else loading ?
-      return self.cbs[lib].push(cb);
-    }
-    self.cbs[lib] = [cb]; // else load
-    var tmp = d.createElement('script');
-    tmp.src = self.path+lib+'.js';
-    tmp.on('load', function(cb){
-      while( (cb = self.cbs[lib].shift()) ){
-        cb(target[supports]);
-      }
-    });
-    //tmp.setAttribute('async', 'true');
-    d.documentElement.fst().appendChild(tmp);
-    //d.documentElement.firstChild.appendChild(tmp); wieso geht das beim google-analytics-script??
+    cb=cb||$.fn;
+    target[supports]
+			?cb(target[supports])
+			:(cbs[lib]
+				?cbs[lib].push(cb)
+				:(
+				    cbs[lib] = [cb],
+				    tmp=$.cEl('script')
+						.attr('src',$.use.path+lib+'.js'),
+						//.attr('async','true')
+						tmp.on('load',function(i,v){
+							v = target[supports] = target[supports] || 1;
+							for( i in cbs[lib] ){ cbs[lib][i](v) }
+							cbs[lib] = undf;
+				    }),
+						tmp.inj(d.el('head'))
+				))
   }
-  $.cEl = function(tag){ return document.createElement(tag) }
+  $.cEl = function(tag){ return d.createElement(tag) }
   for( k in Ext ){ $.ext(w[k].prototype,Ext[k]); }
   $.extEl({
     css: function(prop, value){
@@ -174,6 +173,7 @@ The = function(){
       var trans = {after:'afterEnd',bottom:'beforeEnd',before:'beforeBegin',top:'afterBegin'}
       this['insertAdjacent'+(el.p?'Element':'HTML')](trans[who||'bottom'],el)
     },
+    inj:function(el,who){ el.ad(this,who); },
     on:  function(ev,cb){
       //this.addEventListener(ev, function(e){ var x = {}; $.ext(x,e); cb(x) }, false); // ie9
       this.addEventListener(ev, cb, false);
@@ -192,7 +192,7 @@ The = function(){
     show:function(){ this.css('display','block') },
     hide:function(){ this.css('display','none') }
   });
-  var t = d.els('script');
+  k = d.els('script');
   $.use.path = t[t.length-1].src.rpl(/\/[^\/]+$/,'/');
   $.use.cbs = {};
   $.Eventer = {
@@ -219,5 +219,37 @@ The = function(){
   }
 
   w.$||(w.$=$);
+
+
+	/// firefox
+	if(!HTMLElement.prototype.insertAdjacentElement){
+		HTMLElement.prototype.insertAdjacentElement = function (where,parsedNode){
+			switch (where){
+				case 'beforeBegin': 
+				this.p().insertBefore(parsedNode,this) 
+				break; 
+				case 'afterBegin': 
+				this.insertBefore(parsedNode,this.fst()); 
+				break; 
+				case 'beforeEnd': 
+				this.appendChild(parsedNode); 
+				break; 
+				case 'afterEnd': 
+				this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode); 
+			} 
+		}
+		HTMLElement.prototype.insertAdjacentHTML = function(where,htmlStr){
+			var r = d.createRange(); 
+			r.setStartBefore(this); 
+			var parsedHTML = r.createContextualFragment(htmlStr); 
+			this.insertAdjacentElement(where,parsedHTML)
+		} 
+		HTMLElement.prototype.insertAdjacentText = function(where,txtStr){ 
+			var parsedText = d.createTextNode(txtStr) 
+			this.insertAdjacentElement(where,parsedText) 
+		} 
+	}
+	/// end firefox
+	
   return $;
 }();
