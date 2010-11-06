@@ -41,6 +41,9 @@ Target browsers ars:
   is(selector): returns false or the element itself if it matches the selector
   el(selector): get the first child element matching the selector
   els(selector): get all child Element matching the selector
+  hs(el): checks if el is inside the element
+  ad(el,where): Ads an element/html-string befor, after, on the top or on the bottem of the element
+  inj(el,where): injects the element (like ad)
   rm(): remove ths element
 
   css(name,value): set or get ths a css property
