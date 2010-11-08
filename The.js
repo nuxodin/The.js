@@ -137,12 +137,6 @@ The = function(){
         this.setAttribute(name,value);
       } else for(k in name) this.attr(k,name[k]);
     },
-    anim: function(props, dur, ease){
-      //props.transform && (props.transform += ' '+this.css('transform'));
-      props.transition = 'all '+(dur||0.5)+'s '+(ease||'');
-      this.css('transition','all '+(dur||0.5)+'s '+(ease||''))
-      return this.css(props);
-    },
     adCl: function(v){ !this.hsCl(v) && (this.className += ' '+v)},
     rmCl: function(v){ this.className = this.className.rpl(new RegExp("(^|\\s)"+v+"(\\s|$)"), '');},
     hsCl: function(v){ return this.className.contains(v,' '); },
