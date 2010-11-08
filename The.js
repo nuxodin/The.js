@@ -184,9 +184,8 @@ The = function(){
     },
     dlg: function(sel, ev, cb){
       return this.on(ev, function(ev){
-        var el = ev.target;
-        while(el && !el.is(sel)) el = el.p();
-        if(el && !(el===this) && !(el===d)) cb(el, ev);
+        var el = ev.target.p(sel,1);
+        el && el!==d && cb(el, ev);
       });
     },
     show:function(){ this.css('display','block') },
