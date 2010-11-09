@@ -159,7 +159,7 @@ The = function(){
     lst: function(sel, n){ n = this.lastElementChild;  return sel ? n && n.prv(sel,1) : n },
     prv: function(sel,incMe){ return this._walk('previousElementSibling',sel,incMe) },
     nxt: function(sel,incMe){ return this._walk('nextElementSibling',sel,incMe) },
-    p:   function(sel,incMe){ return this._walk('parentNode',sel,incMe); },
+    p:   function(sel,incMe){ if(!sel && !incMe){return this.parentNode} this._walk('parentNode',sel,incMe); },
     ch:  function(sel){ return sel ? this.ch().is(sel) : this.children },
     rm:  function(){ return this.p().removeChild(this) },
     hs: function(el){ return this.contains ? this.contains(el) : (this.compareDocumentPosition(el)&16) },
