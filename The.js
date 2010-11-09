@@ -186,7 +186,7 @@ The = function(){
     hide:function(){ this.css('display','none') }
   });
   k = d.els('script');
-  $.use.path = t[t.length-1].src.rpl(/\/[^\/]+$/,'/');
+  $.use.path = k[k.length-1].src.rpl(/\/[^\/]+$/,'/');
   $.use.cbs = {};
   $.Eventer = {
     initEvent:function(n){
