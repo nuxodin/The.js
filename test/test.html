@@ -8,6 +8,16 @@
 
 		<input type="submit" onclick="$.use('test/testLib', function(){alert(testLibValue)} ); $.use('test/testLib', function(){alert(testLibValue)} )" value="$.use() 2 times to test if the lib is loading" />
 
-  	<script type="text/javascript"></script>
+		<ul id="ul">
+			<li>blue border</li>
+			<li class="yellow">yellow</li>
+			<li class="green">green</li>
+			<li class="yellow">yellow</li>
+			<li>red</li>
+		</ul>
+
+  	<script type="text/javascript">
+		$('ul').lst().css({color:'red'}).prv('.green').css({color:'green'}).p('ul').css({border:'1px solid blue'}).els('.yellow').css({color:'yellow'})
+		</script>
   </body> 
 </html> 

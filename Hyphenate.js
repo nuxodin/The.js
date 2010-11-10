@@ -48,14 +48,14 @@ The( function($){
   ;
 
 	Hyphenate = {
-    element:function(el){
+    element:function(el,cb){
       var 
       self = this,
-      oldCSS = el.style.cssText,
       complete = function(str){
         this.data = str;
         if(!--todo){
-          el.style.cssText = oldCSS;
+          el.adCl('hyphenated')
+          cb && cb();
         }
       },
       todo = 0,
@@ -73,18 +73,24 @@ The( function($){
           }
   			}
       }
-      el.style.cssText += 'visibility:hidden';
-      hyphEl(el)
+			hyphEl(el)
     },
-  	rmElement: function (el) {
-  		var i=0, n;
-  		while ((n = el.childNodes[i++])) {
-  			if (n.nodeType === 3) {
-          n.data = this.rmString(n.data);
-  			} else if (n.nodeType === 1) {
-  				this.rmElement(n);
-  			}
-  		}
+  	rmElement: function (el){
+			var self=this,
+			unHyphEl = function(el){
+				var i=0, n;
+	  		while ((n = el.childNodes[i++])) {
+          switch(n.nodeType){
+            case 3:
+		          n.data = self.rmString(n.data);
+    					break;
+    				case 1:
+		  				unHyphEl(n);
+          }
+	  		}
+			}
+			unHyphEl(el);
+	    el.rmCl('hyphenated');
   	},
     string: function(str,lang,cb){
       var self = this;
@@ -101,14 +107,14 @@ The( function($){
     					return self.hyphenateWord(lang, word);
     				}
     			};
-    			str = str.replace(self.languages[lang].genRegExp, hyphenate);
+    			str = str.rpl(self.languages[lang].genRegExp, hyphenate);
     		}
     		cb&&cb(str);
 
       }, lang, this.languages);
     },
   	rmString: function(str){
-				return str.rpl(new RegExp(hyphen,'g'),'').rpl(new RegExp(zeroWidthSpace,'g'),'');
+				return str.rpl(new RegExp(hyphen,'g'),'').rpl(new RegExp(urlhyphen,'g'),'');
     },
     languages:[],
   	min:6,
@@ -119,7 +125,7 @@ The( function($){
   		if (word === '') { return ''; }
   		if (word.indexOf(hyphen) !== -1) { return word; }
   		if (lo.cache.hasOwnProperty(word)) { return lo.cache[word]; }
-  		if (lo.exceptions && lo.exceptions.hasOwnProperty(word)) { return lo.exceptions[word].replace(/-/g, hyphen); }
+  		if (lo.exceptions && lo.exceptions.hasOwnProperty(word)) { return lo.exceptions[word].rpl(/-/g, hyphen); }
   		if (word.indexOf('-') !== -1) {
   			//word contains '-' -> hyphenate the parts separated with '-'
   			parts = word.split('-');
@@ -133,13 +139,14 @@ The( function($){
   		wl = w.length;
   		s = w.split('');
   		if (word.indexOf("'") !== -1) {
-  			w = w.toLowerCase().replace("'", "’"); //replace APOSTROPHE with RIGHT SINGLE QUOTATION MARK (since the latter is used in the patterns)
+  			w = w.toLowerCase().rpl("'", "’"); //replace APOSTROPHE with RIGHT SINGLE QUOTATION MARK (since the latter is used in the patterns)
   		} else {
   			w = w.toLowerCase();
   		}
   		hypos = [];
   		numb3rs = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}; //check for member is faster then isFinite()
   		n = wl - lo.shortestPattern;
+
   		for (p = 0; p <= n; p++) {
   			maxwins = Math.min((wl - p), lo.longestPattern);
   			for (win = lo.shortestPattern; win <= maxwins; win++) {
@@ -182,33 +189,34 @@ The( function($){
   	},
 
   	hyphenateURL: function (url) {
-  		return url.replace(/([:\/\.\?#&_,;!@]+)/gi, '$&' + urlhyphen);
+  		return url.rpl(/([:\/\.\?#&_,;!@]+)/gi, '$&' + urlhyphen);
   	},
 
   	prepareLanguagesObj: function (lang){
   		var lo = Hyphenate.languages[lang], wrd;
 
-    	var convertPatterns = function (lang) {
-    		var plen, anfang, ende, pats, pat, key, tmp = {};
-    		pats = Hyphenate.languages[lang].patterns;
-    		for (plen in pats) {
-    			if (pats.hasOwnProperty(plen)) {
-    				plen = parseInt(plen, 10);
-    				anfang = 0;
-    				ende = plen;
-    				while ((pat = pats[plen].substring(anfang, ende))) {
-    					key = pat.replace(/\d/g, '');
-    					tmp[key] = pat;
-    					anfang = ende;
-    					ende += plen;
-    				}
-    			}
-    		}
-    		Hyphenate.languages[lang].patterns = tmp;
-    		Hyphenate.languages[lang].patternsConverted = true;
-    	}
-
   		if (!lo.prepared) {	
+
+	    	var convertPatterns = function (lang) {
+	    		var plen, anfang, ende, pats, pat, key, tmp = {};
+	    		pats = Hyphenate.languages[lang].patterns;
+	    		for (plen in pats) {
+	    			if (pats.hasOwnProperty(plen)) {
+	    				plen = parseInt(plen, 10);
+	    				anfang = 0;
+	    				ende = plen;
+	    				while ((pat = pats[plen].substring(anfang, ende))){
+	    					key = pat.rpl(/\d/g, '');
+	    					tmp[key] = pat;
+	    					anfang = ende;
+	    					ende += plen;
+	    				}
+	    			}
+	    		}
+	    		Hyphenate.languages[lang].patterns = tmp;
+	    		Hyphenate.languages[lang].patternsConverted = true;
+	    	}
+
   			lo.cache = {};
   			if (lo.hasOwnProperty('exceptions')) {
   				Hyphenate.addExceptions(lang, lo.exceptions);
@@ -223,7 +231,7 @@ The( function($){
 
   }
 
-
+	// extend Elenent
   $.extEl({
     getLang:function(){
       if(!this.__lang){
@@ -253,8 +261,8 @@ The( function($){
       }
       return this.__lang;
     },
-    hyphenate:function(){
-      Hyphenate.element( this );
+    hyphenate:function(cb){
+      Hyphenate.element( this, cb );
     },
     unHyphenate:function(){
       Hyphenate.rmElement( this );
