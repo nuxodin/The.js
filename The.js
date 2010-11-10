@@ -97,18 +97,18 @@ The = function(){
       HTMLCollection.prototype[k] = NodeList.prototype[k] = src[k].rThis().each();
     }
   }
-  $.ready= function(fn){ d.readyState==='complete'?fn():d.on('DOMContentLoaded',fn); }
+  $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); }
   $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); }
   $.use= function(lib,cb,supports,target){
     var cbs = $.use.cbs;
     target = target||w;
     supports = supports||lib;
     cb=cb||$.fn;
-    target[supports]
-			?cb(target[supports])
-			:(cbs[lib]
+    target[supports]        // loadet?
+			?cb(target[supports]) 
+			:(cbs[lib]            // loading?
 				?cbs[lib].push(cb)
-				:(
+				:(                  // load!
 				    cbs[lib] = [cb],
 				    tmp=$.cEl('script')
 						.attr('src',$.use.path+lib+'.js'),
