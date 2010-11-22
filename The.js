@@ -70,8 +70,37 @@ The = function(){
           fn.apply(this,args);
         }
       }
+    },
+  	/// firefox
+    HTMLElement:{
+      insertAdjacentElement: function (where,parsedNode){
+  			switch (where){
+  				case 'beforeBegin': 
+  				this.p().insertBefore(parsedNode,this) 
+  				break; 
+  				case 'afterBegin': 
+  				this.insertBefore(parsedNode,this.fst()); 
+  				break; 
+  				case 'beforeEnd': 
+  				this.appendChild(parsedNode); 
+  				break; 
+  				case 'afterEnd': 
+  				this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode); 
+  			} 
+  		},
+  		insertAdjacentHTML: function(where,htmlStr){
+  			var r = d.createRange(); 
+  			r.setStartBefore(this); 
+  			var parsedHTML = r.createContextualFragment(htmlStr); 
+  			this.insertAdjacentElement(where,parsedHTML)
+  		},
+  		insertAdjacentText: function(where,txtStr){
+  			var parsedText = d.createTextNode(txtStr)
+  			this.insertAdjacentElement(where,parsedText)
+  		}
     }
   }
+
 /*  function ajax(method, url, success){
     var r = new XMLHttpRequest();
     r.onreadystatechange = function(){
@@ -151,9 +180,7 @@ The = function(){
         ) && this; 
     },
     _walk: function(operation,sel,incMe,un){
-			return incMe && this.is(sel)
-			? un 
-			: (un=this[operation]) && ( sel ? un._walk(operation,sel,1) : un ); 
+			return incMe && this.is(sel) ? un  : (un=this[operation]) && ( sel ? un._walk(operation,sel,1) : un ); 
 		},
     fst: function(sel, n){ n = this.firstElementChild; return sel ? n && n.nxt(sel,1) : n },
     lst: function(sel, n){ n = this.lastElementChild;  return sel ? n && n.prv(sel,1) : n },
@@ -182,7 +209,7 @@ The = function(){
         el && el!==d && cb(el, ev);
       });
     },
-    show:function(){ this.css('display','block') },
+    show:function(){ this.css('display','') },
     hide:function(){ this.css('display','none') }
   });
   k = d.els('script');
@@ -213,36 +240,5 @@ The = function(){
 
   w.$||(w.$=$);
 
-
-	/// firefox
-	if(!HTMLElement.prototype.insertAdjacentElement){
-		HTMLElement.prototype.insertAdjacentElement = function (where,parsedNode){
-			switch (where){
-				case 'beforeBegin': 
-				this.p().insertBefore(parsedNode,this) 
-				break; 
-				case 'afterBegin': 
-				this.insertBefore(parsedNode,this.fst()); 
-				break; 
-				case 'beforeEnd': 
-				this.appendChild(parsedNode); 
-				break; 
-				case 'afterEnd': 
-				this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode); 
-			} 
-		}
-		HTMLElement.prototype.insertAdjacentHTML = function(where,htmlStr){
-			var r = d.createRange(); 
-			r.setStartBefore(this); 
-			var parsedHTML = r.createContextualFragment(htmlStr); 
-			this.insertAdjacentElement(where,parsedHTML)
-		} 
-		HTMLElement.prototype.insertAdjacentText = function(where,txtStr){ 
-			var parsedText = d.createTextNode(txtStr) 
-			this.insertAdjacentElement(where,parsedText) 
-		} 
-	}
-	/// end firefox
-	
   return $;
 }();
