@@ -74,29 +74,29 @@ The = function(){
   	/// firefox
     HTMLElement:{
       insertAdjacentElement: function (where,parsedNode){
-  			switch (where){
-  				case 'beforeBegin': 
-  				this.p().insertBefore(parsedNode,this) 
-  				break; 
-  				case 'afterBegin': 
-  				this.insertBefore(parsedNode,this.fst()); 
-  				break; 
-  				case 'beforeEnd': 
-  				this.appendChild(parsedNode); 
-  				break; 
-  				case 'afterEnd': 
-  				this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode); 
-  			} 
+        switch (where){
+          case 'beforeBegin': 
+          this.p().insertBefore(parsedNode,this) 
+          break; 
+          case 'afterBegin': 
+          this.insertBefore(parsedNode,this.fst()); 
+          break; 
+          case 'beforeEnd': 
+          this.appendChild(parsedNode); 
+          break; 
+          case 'afterEnd': 
+          this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode); 
+        } 
   		},
-  		insertAdjacentHTML: function(where,htmlStr){
-  			var r = d.createRange(); 
-  			r.setStartBefore(this); 
-  			var parsedHTML = r.createContextualFragment(htmlStr); 
-  			this.insertAdjacentElement(where,parsedHTML)
-  		},
-  		insertAdjacentText: function(where,txtStr){
-  			var parsedText = d.createTextNode(txtStr)
-  			this.insertAdjacentElement(where,parsedText)
+      insertAdjacentHTML: function(where,htmlStr){
+      	var r = d.createRange(); 
+      	r.setStartBefore(this); 
+      	var parsedHTML = r.createContextualFragment(htmlStr); 
+      	this.insertAdjacentElement(where,parsedHTML)
+      },
+      insertAdjacentText: function(where,txtStr){
+      	var parsedText = d.createTextNode(txtStr)
+      	this.insertAdjacentElement(where,parsedText)
   		}
     }
   }
@@ -117,13 +117,18 @@ The = function(){
     $.get(url, function(json){ success(JSON.parse(json)) });
   };
 */
+
+
   function $(n){ return n.rThis ? n($) : ( n.p ? n : d.getElementById(n) ) }
   $.fn = function(v){return v}
   $.ext = function(target, src){ target=target||{}; for(k in src) !target[k] && (target[k] = src[k]); return target; };
+  $.dom = {};
   $.extEl = function(src){
     for(k in src){
-      window[k] = Document.prototype[k] = HTMLElement.prototype[k] = src[k].rThis();
-      HTMLCollection.prototype[k] = NodeList.prototype[k] = src[k].rThis().each();
+      var fn = src[k].rThis();
+      window[k] = Document.prototype[k] = HTMLElement.prototype[k] = fn;
+      HTMLCollection.prototype[k] = NodeList.prototype[k] = fn.each();
+      $.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn );
     }
   }
   $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); }
