@@ -215,7 +215,21 @@ The = function(){
       });
     },
     show:function(){ this.css('display','') },
-    hide:function(){ this.css('display','none') }
+    hide:function(){ this.css('display','none') },
+    zTop: function(){
+      var p=this.p(), z=p.$zTop;
+      if(!z){
+        for (var i=0, el, cs=p.ch(), elZ; el = cs[i++];){
+          elZ = el.css('z-index')*1;
+          z = Math.max(z,elZ);//elZ > z ? elZ : z;
+        }
+      }
+      p!==d && p.zTop();
+//      p.style.zIndex = p.css('z-index')*1||0; // prevent mix with other contexts (override default auto)
+      z = z||0;
+      this.style.zIndex = p.$zTop = z+1;
+    }
+
   });
   k = d.els('script');
   $.use.path = k[k.length-1].src.rpl(/\/[^\/]+$/,'/');

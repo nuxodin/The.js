@@ -1,0 +1,59 @@
+<!DOCTYPE HTML> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"> 
+	<head>
+   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	 <script src="../The.js"></script>
+	 <style>
+    .box {
+      position:absolute;
+      width:100px;
+      height:100px;
+      background:white;
+      border:2px solid black;
+    }
+    .box .box {
+      width:70px;
+      height:70px;
+      background:rgba(255,255,0,0.9);
+      border:2px solid black;
+    }
+    .m1 { background:rgba(255,255,0,0.7) }
+    .m1 .box { background:rgba(255,255,0,0.9) }
+    .m2 { background:rgba(255,0,255,0.7) }
+    .m2 .box { background:rgba(255,0,255,0.9) }
+    .m3 { background:rgba(0,255,255,0.7) }
+    .m3 .box { background:rgba(0,255,255,0.9) }
+
+    .b1 { top:-10px; left:-10px }
+    .b2 { top:50px; left:20px }
+    .b3 { top:20px; left:50px }
+	 </style>
+	 <script>
+	   document.dlg('.box','mouseover',function(el){
+      el.zTop();
+     })
+	 </script>
+	</head>
+	<body>
+
+    <div class="box m1" style="top:110px; left:110px">
+      <div class="box b1"></div>
+      <div class="box b2"></div>
+      <div class="box b3"></div>
+    </div>
+
+    <div class="box m2" style="top:190px; left:130px">
+      <div class="box b1"></div>
+      <div class="box b2"></div>
+      <div class="box b3"></div>
+    </div>
+
+    <div class="box m3" style="top:130px; left:190px">
+      <div class="box b1"></div>
+      <div class="box b2"></div>
+      <div class="box b3"></div>
+    </div>
+
+
+  </body> 
+</html> 
