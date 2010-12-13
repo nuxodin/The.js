@@ -29,7 +29,7 @@ The = function(){
           return fn.apply(bind,arguments);
        };
      },
-     rThis: function(){ // if function returns undefined, it now returns "this"
+     chained: function(){ // if function returns undefined, it now returns "this"
        var fn = this;
        return function(){
          var ret = fn.apply(this,arguments);
@@ -119,13 +119,13 @@ The = function(){
 */
 
 
-  function $(n){ return n.rThis ? n($) : ( n.p ? n : d.getElementById(n) ) }
+  function $(n){ return n.chained ? n($) : ( n.p ? n : d.getElementById(n) ) }
   $.fn = function(v){return v}
   $.ext = function(target, src){ target=target||{}; for(k in src) !target[k] && (target[k] = src[k]); return target; };
   $.dom = {};
   $.extEl = function(src){
     for(k in src){
-      var fn = src[k].rThis();
+      var fn = src[k].chained();
       window[k] = Document.prototype[k] = HTMLElement.prototype[k] = fn;
       HTMLCollection.prototype[k] = NodeList.prototype[k] = fn.each();
       $.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn );
