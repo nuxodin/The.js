@@ -69,7 +69,7 @@ Target browsers ars:
 = Function functions:
   each(): 
       return a function that calls itself over all its instance-properties
-  rThis():
+  chaining():
       return a function that returns its instance if it returns nothing (undefined)
   ignoreUntil(min,max):
       waits for the execution of the function (min) and then 
