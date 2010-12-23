@@ -208,6 +208,9 @@ The = function(){
     no: function(ev,cb){
       this.removeEventListener(ev, cb, false);
     },
+    fire: function(ev){
+      var e; this.dispatchEvent( e = d.createEvent('Events'), e.initEvent(ev, true, false) )
+    },
     dlg: function(sel, ev, cb){
       return this.on(ev, function(ev){
         var el = ev.target.p(sel,1);
