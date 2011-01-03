@@ -217,7 +217,7 @@ The = function(){
         el && el!==d && cb(el, ev);
       });
     },
-    show:function(){ this.css('display','') },
+    show:function(){ this.css('display','block') },
     hide:function(){ this.css('display','none') },
     zTop: function(){
       var p=this.p(), z=p.$zTop;
