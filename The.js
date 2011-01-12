@@ -249,7 +249,7 @@ The = function(){
     html:function(v){ this.innerHTML = v; }
   });
   k = d.els('script');
-  $.use.path = k[k.length-1].src.rpl(/\/[^\/]+$/,'/');
+  $.use.path = k.getAttribute('basis') || k[k.length-1].src.rpl(/\/[^\/]+$/,'/');
   $.use.cbs = {};
   $.Eventer = {
     initEvent:function(n){
