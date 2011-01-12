@@ -249,7 +249,8 @@ The = function(){
     html:function(v){ this.innerHTML = v; }
   });
   k = d.els('script');
-  $.use.path = k.getAttribute('basis') || k[k.length-1].src.rpl(/\/[^\/]+$/,'/');
+  k = k[k.length-1];
+  $.use.path = k.attr('basis') || k.src.rpl(/\/[^\/]+$/,'/');
   $.use.cbs = {};
   $.Eventer = {
     initEvent:function(n){
