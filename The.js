@@ -36,10 +36,10 @@ The = function(){
          return ret===undf?this:ret;
        }
      },
-     each:function(){ // make a funktion that calls itself for every properties of its instance
+     each:function(retConst){ // make a funktion that calls itself for every properties of its instance
         var fn = this;
         return function(){
-          var args = arguments, ret = [];
+          var args = arguments, ret = retConst ? new retConst : [];
           slice.call(this).forEach( function(el){
             var v = fn.apply(el,args);
             v && ret.push(v);
@@ -124,13 +124,22 @@ The = function(){
   $.ext = function(target, src){ target=target||{}; for(k in src) !target[k] && (target[k] = src[k]); return target; };
   //$.dom = {};
   $.extEl = function(src){
+
+    var operaNLProtoQSAll = document.querySelectorAll('html').constructor.prototype // opera prototype for querySelectorAll-NodeLists
+
     for(k in src){
       var fn = src[k].chained();
       window[k] = Document.prototype[k] = HTMLElement.prototype[k] = fn;
-      HTMLCollection.prototype[k] = NodeList.prototype[k] = fn.each(); // opera know NodeList but extending the prototype has no effect
+      //$.NodeList.prototype[k] =
+      operaNLProtoQSAll =  // opera 11
+      HTMLCollection.prototype[k] = // ie
+      NodeList.prototype[k] = fn.each(); // opera know NodeList but extending the prototype has no effect???
       //$.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn ); //  dom functions like that: $.dom.adCl(el,'test');
     }
   }
+  //$.NodeList = function(){};
+  //$.NodeList.prototype = new Array();
+
   $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); }
   $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); }
   $.use= function(lib,cb,supports,target){
@@ -177,11 +186,12 @@ The = function(){
     els: function(sel){ return this.querySelectorAll(sel); },
     el: function(sel){ return this.querySelector(sel); },
     is: function(sel){
-				if(this===d){ return sel===this; } // ie9 on document
+        if(this===d){ return sel===this; } // ie9 on document
         return (
           sel.dlg ? sel===this 
           : (
-              this.matchesSelector||this[vendor+'MatchesSelector']||function(){ return d.body.els(sel).is(this).length}
+              this.matchesSelector||this[vendor+'MatchesSelector']||
+                function(){ return (d.body.els(sel).is(this).length) }
             ).bind(this)(sel)
         ) && this; 
     },
