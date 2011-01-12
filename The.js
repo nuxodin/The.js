@@ -122,13 +122,13 @@ The = function(){
   function $(n){ return n.chained ? n($) : ( n.p ? n : d.getElementById(n) ) }
   $.fn = function(v){return v}
   $.ext = function(target, src){ target=target||{}; for(k in src) !target[k] && (target[k] = src[k]); return target; };
-  $.dom = {};
+  //$.dom = {};
   $.extEl = function(src){
     for(k in src){
       var fn = src[k].chained();
       window[k] = Document.prototype[k] = HTMLElement.prototype[k] = fn;
-      HTMLCollection.prototype[k] = NodeList.prototype[k] = fn.each();
-      $.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn );
+      HTMLCollection.prototype[k] = NodeList.prototype[k] = fn.each(); // opera know NodeList but extending the prototype has no effect
+      //$.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn ); //  dom functions like that: $.dom.adCl(el,'test');
     }
   }
   $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); }
@@ -177,6 +177,7 @@ The = function(){
     els: function(sel){ return this.querySelectorAll(sel); },
     el: function(sel){ return this.querySelector(sel); },
     is: function(sel){
+				if(this===d){ return sel===this; } // ie9 on document
         return (
           sel.dlg ? sel===this 
           : (
@@ -201,12 +202,15 @@ The = function(){
     },
     inj:function(el,who){ el.ad(this,who); },
     on:  function(ev,cb){
-      //this.addEventListener(ev, function(e){ var x = {}; $.ext(x,e); cb(x) }, false); // ie9
-      this.addEventListener(ev, cb, false);
-      return this.no.bind(this).args(ev,cb);
+      for (var i=0,evs=ev.split(/\s/),x ; x=evs[i++]; ){
+        //this.addEventListener(ev, function(e){ var x = {}; $.ext(x,e); cb(x) }, false); // ie9
+        this.addEventListener(x, cb, false);
+      }
     },
     no: function(ev,cb){
-      this.removeEventListener(ev, cb, false);
+      for (var i=0,evs=ev.split(/\s/),x ; x=evs[i++]; ){
+        this.removeEventListener(x, cb, false);
+      }
     },
     fire: function(ev){
       var e; this.dispatchEvent( e = d.createEvent('Events'), e.initEvent(ev, true, false) )
@@ -231,8 +235,8 @@ The = function(){
 //      p.style.zIndex = p.css('z-index')*1||0; // prevent mix with other contexts (override default auto)
       z = z||0;
       this.style.zIndex = p.$zTop = z+1;
-    }
-
+    },
+    html:function(v){ this.innerHTML = v; }
   });
   k = d.els('script');
   $.use.path = k[k.length-1].src.rpl(/\/[^\/]+$/,'/');
