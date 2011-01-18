@@ -71,10 +71,10 @@ The = function(){
         };
       }
     },
-  	/// firefox
+  	/// firefox 4b9
     HTMLElement:{
       insertAdjacentElement: function (where,parsedNode){
-        switch (where){
+    	  switch (where){
           case 'beforeBegin': 
           this.p().insertBefore(parsedNode,this);
           break; 
@@ -130,15 +130,15 @@ The = function(){
     for(k in src){
       var fn = src[k].chained();
       window[k] = Document.prototype[k] = HTMLElement.prototype[k] = fn;
-      //$.NodeList.prototype[k] =
+      $.NodeList.prototype[k] =
       operaNLProtoQSAll =  // opera 11
       HTMLCollection.prototype[k] = // ie
-      NodeList.prototype[k] = fn.each(); // opera know NodeList but extending the prototype has no effect???
+      NodeList.prototype[k] = fn.each($.NodeList); // opera know NodeList but extending the prototype has no effect???
       //$.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn ); //  dom functions like that: $.dom.adCl(el,'test');
     }
   };
-  //$.NodeList = function(){};
-  //$.NodeList.prototype = new Array();
+  $.NodeList = function(){};
+  $.NodeList.prototype = new Array();
 
   $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); };
   $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); };
@@ -148,7 +148,7 @@ The = function(){
     supports = supports||lib;
     cb=cb||$.fn;
     target[supports]        // loadet?
-			?cb(target[supports])
+			? cb(target[supports])
 			:(cbs[lib]            // loading?
 				?cbs[lib].push(cb)
 				:(                  // load!

@@ -1,23 +1,28 @@
 <!DOCTYPE HTML> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"> 
 	<head>
-   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
-	 <script src="../The.js"></script>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+		<script src="../The.js"></script>
 	</head>
 	<body>
 
 		<input type="submit" onclick="$.use('test/testLib', function(){alert(testLibValue)} ); $.use('test/testLib', function(){alert(testLibValue)} )" value="$.use() 2 times to test if the lib is loading" />
-
-		<ul id="ul">
+	
+		<ul id="ulElement">
 			<li>blue border</li>
 			<li class="yellow">yellow</li>
 			<li class="green">green</li>
 			<li class="yellow">yellow</li>
 			<li>red</li>
 		</ul>
-
-  	<script type="text/javascript">
-		$('ul').lst().css({color:'red'}).prv('.green').css({color:'green'}).p('ul').css({border:'1px solid blue'}).els('.yellow').css({color:'yellow'})
+	
+	  	<script>
+			var x = $('ulElement')
+			.lst().css({color:'red'})
+			.prv('.green').css({color:'green'})
+			.p('ul').css({border:'1px solid blue'})
+			.els('.yellow').css({color:'#fb0'})
+			.ad('<b> added</b>')
 		</script>
-  </body> 
+ 	</body> 
 </html> 
