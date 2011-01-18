@@ -14,7 +14,7 @@ The(function(){
       distance:function(){ return Math.sqrt( Math.pow(f.last.x - f.start.x,2)+Math.pow(f.last.y-f.start.y,2) ); },
       distanceX:function(){ return f.last.x - f.start.x; },
       distanceY:function(){ return f.last.y - f.start.y; },
-      duration:function(){ return f.start.t - f.last.t; },
+      duration:function(){ return f.start.t - f.last.t; }
     }
     ,s = function(ev){
   		f.start = f.last = getPoint(ev);
@@ -45,10 +45,10 @@ The(function(){
     getPoint = function(e){
       var p = e.targetTouches ? e.targetTouches[0] : e;
       return {x:p.pageX,y:p.pageY,t:e.timeStamp}; //return {x:e.clientX,y:e.clientY};
-  	}
+  	};
   	el.on('touchstart',s);
   	el.on('mousedown',s);
-  }
+  };
   PointFollower.prototype = $.Eventer;
   
 });

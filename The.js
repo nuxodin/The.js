@@ -10,11 +10,11 @@
 
 
 The = function(){
-	var undf, k, d=document, w=window, slice=[].slice,
+  var undf, k, d=document, w=self, slice=[].slice,
   vendor = w.controllers?'moz':(w.opera?'o':(d.all?'ms':'webkit'))
   ,Ext = {
     String:{
-      camelize:function(){ return this.rpl(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : '' }) },
+      camelize:function(){ return this.rpl(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : ''; }); },
       contains:function(str, separ){ separ=separ||''; return (separ+this+separ).indexOf(separ+str+separ) > -1; },
       rpl:String.prototype.replace,
       trim: function(){ return this.rpl(/^\s+|\s+$/g, '');}
@@ -34,7 +34,7 @@ The = function(){
        return function(){
          var ret = fn.apply(this,arguments);
          return ret===undf?this:ret;
-       }
+       };
      },
      each:function(retConst){ // make a funktion that calls itself for every properties of its instance
         var fn = this;
@@ -43,9 +43,9 @@ The = function(){
           slice.call(this).forEach( function(el){
             var v = fn.apply(el,args);
             v && ret.push(v);
-          })
+          });
           return ret;
-        }
+        };
       },
       ignoreUntil: function(min,max){ // waits for the execution of the function (min) and then executes the last call, but waits maximal (max) millisecunds
         var fn = this, rmMin = $.fn, rmMax = $.fn, hasMax;
@@ -60,15 +60,15 @@ The = function(){
           rmMin();
           rmMin = $.wait( wait, min);
           if(hasMax || !max) return;
-          hasMax = 1
+          hasMax = 1;
           rmMax = $.wait( wait, max);
-        }
+        };
       },
       args: function(){ // make a function with defined Arguments
         var fn = this, args = arguments;
         return function(){
           fn.apply(this,args);
-        }
+        };
       }
     },
   	/// firefox
@@ -76,7 +76,7 @@ The = function(){
       insertAdjacentElement: function (where,parsedNode){
         switch (where){
           case 'beforeBegin': 
-          this.p().insertBefore(parsedNode,this) 
+          this.p().insertBefore(parsedNode,this);
           break; 
           case 'afterBegin': 
           this.insertBefore(parsedNode,this.fst()); 
@@ -92,14 +92,14 @@ The = function(){
       	var r = d.createRange(); 
       	r.setStartBefore(this); 
       	var parsedHTML = r.createContextualFragment(htmlStr); 
-      	this.insertAdjacentElement(where,parsedHTML)
+      	this.insertAdjacentElement(where,parsedHTML);
       },
       insertAdjacentText: function(where,txtStr){
-      	var parsedText = d.createTextNode(txtStr)
-      	this.insertAdjacentElement(where,parsedText)
-  		}
+        var parsedText = d.createTextNode(txtStr);
+        this.insertAdjacentElement(where,parsedText);
+  	  }
     }
-  }
+  };
 
 /*  function ajax(method, url, success){
     var r = new XMLHttpRequest();
@@ -119,13 +119,13 @@ The = function(){
 */
 
 
-  function $(n){ return n.chained ? n($) : ( n.p ? n : d.getElementById(n) ) }
-  $.fn = function(v){return v}
+  function $(n){ return n.chained ? n($) : ( n.p ? n : d.getElementById(n) ); }
+  $.fn = function(v){return v;};
   $.ext = function(target, src){ target=target||{}; for(k in src) !target[k] && (target[k] = src[k]); return target; };
   //$.dom = {};
   $.extEl = function(src){
 
-    var operaNLProtoQSAll = document.querySelectorAll('html').constructor.prototype // opera prototype for querySelectorAll-NodeLists
+    var operaNLProtoQSAll = document.querySelectorAll('html').constructor.prototype; // opera prototype for querySelectorAll-NodeLists
 
     for(k in src){
       var fn = src[k].chained();
@@ -136,19 +136,19 @@ The = function(){
       NodeList.prototype[k] = fn.each(); // opera know NodeList but extending the prototype has no effect???
       //$.dom[k] = function(fn){ return function(el){ return fn.apply( $(el), slice.call(arguments,1) ) } }( fn ); //  dom functions like that: $.dom.adCl(el,'test');
     }
-  }
+  };
   //$.NodeList = function(){};
   //$.NodeList.prototype = new Array();
 
-  $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); }
-  $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); }
+  $.ready= function(fn){ ['complete','loaded'].indexOf(d.readyState)!==-1?fn():d.on('DOMContentLoaded',fn); };
+  $.wait = function(fn,v){ return clearTimeout.args( setTimeout(fn,v) ); };
   $.use= function(lib,cb,supports,target){
     var cbs = $.use.cbs;
     target = target||w;
     supports = supports||lib;
     cb=cb||$.fn;
     target[supports]        // loadet?
-			?cb(target[supports]) 
+			?cb(target[supports])
 			:(cbs[lib]            // loading?
 				?cbs[lib].push(cb)
 				:(                  // load!
@@ -163,8 +163,8 @@ The = function(){
 				    }),
 						tmp.inj(d.el('head'))
 				))
-  }
-  $.cEl = function(tag){ return d.createElement(tag) }
+  };
+  $.cEl = function(tag){ return d.createElement(tag); }
   for( k in Ext ){ $.ext(w[k].prototype,Ext[k]); }
   $.extEl({
     css: function(prop, value){
@@ -180,7 +180,7 @@ The = function(){
         this.setAttribute(name,value);
       } else for(k in name) this.attr(k,name[k]);
     },
-    adCl: function(v){ !this.hsCl(v) && (this.className += ' '+v)},
+    adCl: function(v){ !this.hsCl(v) && (this.className += ' '+v); },
     rmCl: function(v){ this.className = this.className.rpl(new RegExp("(^|\\s)"+v+"(\\s|$)"), '');},
     hsCl: function(v){ return this.className.contains(v,' '); },
     els: function(sel){ return this.querySelectorAll(sel); },
@@ -191,24 +191,24 @@ The = function(){
           sel.dlg ? sel===this 
           : (
               this.matchesSelector||this[vendor+'MatchesSelector']||
-                function(){ return (d.body.els(sel).is(this).length) }
+                function(){ return (d.body.els(sel).is(this).length); }
             ).bind(this)(sel)
         ) && this; 
     },
     _walk: function(operation,sel,incMe,un){
 			return incMe && this.is(sel) ? un  : (un=this[operation]) && ( sel ? un._walk(operation,sel,1) : un ); 
 		},
-    fst: function(sel, n){ n = this.firstElementChild; return sel ? n && n.nxt(sel,1) : n },
-    lst: function(sel, n){ n = this.lastElementChild;  return sel ? n && n.prv(sel,1) : n },
-    prv: function(sel,incMe){ return this._walk('previousElementSibling',sel,incMe) },
-    nxt: function(sel,incMe){ return this._walk('nextElementSibling',sel,incMe) },
+    fst: function(sel, n){ n = this.firstElementChild; return sel ? n && n.nxt(sel,1) : n; },
+    lst: function(sel, n){ n = this.lastElementChild;  return sel ? n && n.prv(sel,1) : n; },
+    prv: function(sel,incMe){ return this._walk('previousElementSibling',sel,incMe); },
+    nxt: function(sel,incMe){ return this._walk('nextElementSibling',sel,incMe); },
     p:   function(sel,incMe){ return this._walk('parentNode',sel,incMe); },
-    ch:  function(sel){ return sel ? this.ch().is(sel) : this.children },
-    rm:  function(){ return this.p().removeChild(this) },
-    hs: function(el){ return this.contains ? this.contains(el) : (this.compareDocumentPosition(el)&16) },
+    ch:  function(sel){ return sel ? this.ch().is(sel) : this.children; },
+    rm:  function(){ return this.p().removeChild(this); },
+    hs: function(el){ return this.contains ? this.contains(el) : (this.compareDocumentPosition(el)&16); },
     ad: function(el,who){
-      var trans = {after:'afterEnd',bottom:'beforeEnd',before:'beforeBegin',top:'afterBegin'}
-      this['insertAdjacent'+(el.p?'Element':'HTML')](trans[who||'bottom'],el)
+      var trans = {after:'afterEnd',bottom:'beforeEnd',before:'beforeBegin',top:'afterBegin'};
+      this['insertAdjacent'+(el.p?'Element':'HTML')](trans[who||'bottom'],el);
     },
     inj:function(el,who){ el.ad(this,who); },
     on:  function(ev,cb){
@@ -223,7 +223,7 @@ The = function(){
       }
     },
     fire: function(ev){
-      var e; this.dispatchEvent( e = d.createEvent('Events'), e.initEvent(ev, true, false) )
+      var e; this.dispatchEvent( e = d.createEvent('Events'), e.initEvent(ev, true, false) );
     },
     dlg: function(sel, ev, cb){
       return this.on(ev, function(ev){
@@ -231,8 +231,8 @@ The = function(){
         el && el!==d && cb(el, ev);
       });
     },
-    show:function(){ this.css('display','block') },
-    hide:function(){ this.css('display','none') },
+    show:function(){ this.css('display','block'); },
+    hide:function(){ this.css('display','none'); },
     zTop: function(){
       var p=this.p(), z=p.$zTop;
       if(!z){
@@ -252,8 +252,9 @@ The = function(){
   k = k[k.length-1];
   $.use.path = k.attr('basis') || k.src.rpl(/\/[^\/]+$/,'/');
   $.use.cbs = {};
+
   $.Eventer = {
-    initEvent:function(n){
+    initEvent : function(n){
       !this.Events && (this.Events={});
       !this.Events[n] && (this.Events[n]=[]);
     }
@@ -270,10 +271,10 @@ The = function(){
         this.initEvent(n);
         var self = this;
         this.Events[n].forEach(function(fn){
-          fn.bind(self)(e)
+          fn.bind(self)(e);
         })
     }
-  }
+  };
 
   w.$||(w.$=$);
 
