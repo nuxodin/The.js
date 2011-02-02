@@ -169,7 +169,7 @@ The = function(){
   $.extEl({
     css: function(prop, value){
       if(prop.trim) {
-        if(value === undf) return (getComputedStyle(this,null).getPropertyValue(prop) || getComputedStyle(this,null).getPropertyValue('-'+vendor+'-'+prop) )+'';
+        if(value === undf){ k = getComputedStyle(this,null); return (k.getPropertyValue(prop)||k.getPropertyValue('-'+vendor+'-'+prop) )+''; }
         //if( /^[0-9]+$/.test(value+'') ){ value += 'px' }
         this.style.cssText += ';'+prop+":"+value+';-'+vendor+'-'+prop+':'+value;
 	    } else for(k in prop) this.css(k,prop[k]);
