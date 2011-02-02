@@ -276,6 +276,7 @@ The = function(){
     }
   };
 
+  on(vendor+'TransitionEnd',function(e){ e.target.fire('transitionend',e) });
   w.$||(w.$=$);
 
   return $;
