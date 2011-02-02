@@ -269,10 +269,10 @@ The = function(){
     }
     ,fire:function(n,e){
         this.initEvent(n);
-        var self = this;
-        this.Events[n].forEach(function(fn){
-          fn.bind(self)(e);
-        })
+        var Events = this.Events[n], i;
+        for(i in Events){
+          Events[i].bind(this)(e);
+        }
     }
   };
 
