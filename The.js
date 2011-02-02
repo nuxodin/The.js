@@ -228,7 +228,7 @@ The = function(){
     dlg: function(sel, ev, cb){
       return this.on(ev, function(ev){
         var el = ev.target.p(sel,1);
-        el && el!==d && cb(el, ev);
+        el && el!==d && cb.bind(el)(el, ev);
       });
     },
     show:function(){ this.css('display','block'); },
