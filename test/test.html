@@ -3,26 +3,66 @@
 	<head>
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 		<script src="../The.js"></script>
+		<style>
+			body script {
+				display:block;
+				white-space:pre; 
+				border:1px solid #faa; 
+				background:#fee;
+				margin:10px; 
+				padding:6px;
+			}
+			body script:before {
+				content:'code:';
+				background:#d99;
+				color:white;
+				display:block;
+				padding:3px 7px;
+			}
+		</style>
 	</head>
 	<body>
 
-		<input type="submit" onclick="$.use('test/testLib', function(){alert(testLibValue)} ); $.use('test/testLib', function(){alert(testLibValue)} )" value="$.use() 2 times to test if the lib is loading" />
+		<h1>$.use() Test</h2>
+		<input type="submit" id="use_test" xonclick="$.use('test/testLib', function(){alert(testLibValue)} ); $.use('test/testLib', function(){alert(testLibValue)} )" value="$.use() 2 times to test if the lib is loading" />
+
+<script>
+$('use_test').on('click',function(){
+    $.use('test/testLib', function(){ // test/testLib.js is required 
+        alert(testLibValue)} 
+    ); 
+    $.use('test/testLib', function(){
+        alert(testLibValue)
+    })
+})
+
+// test/testLib.js:
+// -------------------
+// alert('server: script geladen');
+// testLibValue = 'gix';
+
+</script>
 	
+
+		<h1>dom navigation / manipulation Text</h2>
 		<ul id="ulElement">
-			<li>blue border</li>
+			<li>click here</li>
+			<li>blue background</li>
 			<li class="yellow">yellow</li>
 			<li class="green">green</li>
 			<li class="yellow">yellow</li>
 			<li>red</li>
 		</ul>
 	
-	  	<script>
-			$('ulElement')
-			.lst().css({color:'red'})
-			.prv('.green').css({color:'green'})
-			.p('ul').css({border:'1px solid blue'})
-			.els('.yellow').css({color:'#fb0'})
-			.ad('<b> added</b>')
-		</script>
+<script style="display:block;white-space:pre; border:1px solid #faa; background:#fee">
+$('ulElement').one('click',function(){
+	this.lst().css({color:'red'}) // last
+	.prv('.green').css({color:'green'}) // previous width selector
+	.p('ul').css({background:'#ccf'})   // parent width selector
+	.els('.yellow').css({color:'#fb0'}).ad('<b> added b-tag</b>')  // childs width selector
+})
+</script>
+
+
  	</body> 
 </html> 

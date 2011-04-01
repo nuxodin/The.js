@@ -27,10 +27,10 @@ The = function(){
       }
     },
     String:{
-        camelize:function(){ return this.rpl(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : ''; }); },
-        contains:function(str, separ){ separ=separ||''; return (separ+this+separ).indexOf(separ+str+separ) > -1; },
-        rpl:String.prototype.replace,
-        trim: function(){ return this.rpl(/^\s+|\s+$/g, '');}
+        ///camelize:function(){ return this.rpl(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : ''; }); }
+        contains:function(str, separ){ separ=separ||''; return (separ+this+separ).indexOf(separ+str+separ) > -1; }
+        ,rpl:String.prototype.replace
+        ,trim: function(){ return this.rpl(/^\s+|\s+$/g, '');}
     },
     Number:{
       limit: function(min, max){ return Math.min(max, Math.max(min, this)); }
@@ -60,26 +60,6 @@ The = function(){
           return ret;
         };
      },
-/*
-     ignoreUntil: function(min,max){ // waits for the execution of the function (min) and then executes the last call, but waits maximal (max) millisecunds
-        var fn = this, minTimer, maxTimer, hasMax, inst, args
-        ,wait = function(){
-          hasMax = 0;
-          clearTimeout(maxTimer)
-          clearTimeout(minTimer) // not needed?
-          fn.apply(inst,args);
-        };
-        return function(){
-          inst=this, args=arguments;
-          clearTimeout(minTimer)
-          minTimer = setTimeout(wait, min);
-          if(!hasMax && max){
-	          hasMax = 1;
-	          maxTimer = setTimeout(wait, max);
-					}
-        };
-      },
-*/
      ignoreUntil: function(min,max){ // waits for the execution of the function (min) and then executes the last call, but waits maximal (max) millisecunds
         var fn = this, minTimer, maxTimer, inst, args
         ,wait = function(){
@@ -117,7 +97,7 @@ The = function(){
           this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode);
         } 
   		},
-      insertAdjacentHTML: function(where,htmlStr){
+      insertAdjacentHTML: function(where,htmlStr){ // ff is working on it
       	var r = d.createRange(); 
       	r.setStartBefore(this); 
       	var parsedHTML = r.createContextualFragment(htmlStr); 
@@ -133,7 +113,7 @@ The = function(){
   function $(n){ return n.chained ? n($) : ( n.p ? n : d.getElementById(n) ); }
   $.fn = function(v){return v;};
   $.ext = function(target, src){ target=target||{}; for(k in src) target[k]===undf && (target[k] = src[k]); return target; };
-  for( k in Ext ){ if(w[k]) $.ext(w[k].prototype,Ext[k]); }
+  for( k in Ext ){ w[k] && $.ext(w[k].prototype,Ext[k]) }
 
   $.extEl = function(src){
     for(k in src){
@@ -144,7 +124,7 @@ The = function(){
 
       $.NodeList.prototype[k] =
 //      HTMLCollection.prototype[k] = // ie
-//      NodeList.prototype[k] = // opera know NodeList but extending the prototype has no effect??? 
+//      NodeList.prototype[k] = 
 			fn.each($.NodeList); 
     }
   };
@@ -155,7 +135,7 @@ The = function(){
               this[i]=els[i]
           }
           this.length = l;
-      } 
+      }
   };
   $.NodeList.prototype = [];
 
