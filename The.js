@@ -92,28 +92,19 @@ The = function(){
         HTMLElement:{ // firefox 4
             insertAdjacentElement: function (where,parsedNode){
                 switch (where){
-                case 'beforeBegin': 
-                    this.p().insertBefore(parsedNode,this);
-                    break; 
-                case 'afterBegin': 
-                    this.insertBefore(parsedNode,this.fst()); 
-                    break; 
-                case 'beforeEnd': 
-                    this.appendChild(parsedNode);
-                    break; 
-                case 'afterEnd': 
-                    this.nextSibling ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode);
+                case 'beforeBegin': this.p().insertBefore(parsedNode,this); break; 
+                case 'afterBegin':  this.insertBefore(parsedNode,this.fst()); break; 
+                case 'beforeEnd': this.appendChild(parsedNode); break; 
+                case 'afterEnd':  this.nxt() ? this.p().insertBefore(parsedNode,this.nxt()) : this.p().appendChild(parsedNode);
                 } 
             },
             insertAdjacentHTML: function(where,htmlStr){ // ff is working on it
-                var r = d.createRange(); 
+                var r = d.createRange();
                 r.setStartBefore(this); 
-                var parsedHTML = r.createContextualFragment(htmlStr); 
-                this.insertAdjacentElement(where,parsedHTML);
+                this.insertAdjacentElement(where,r.createContextualFragment(htmlStr));
             },
             insertAdjacentText: function(where,txtStr){
-                var parsedText = d.createTextNode(txtStr);
-                this.insertAdjacentElement(where,parsedText);
+                this.insertAdjacentElement(where,d.createTextNode(txtStr));
             }
         }
     };
