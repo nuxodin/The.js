@@ -4,7 +4,7 @@ The.js is a javascript-framework for new Browsers only with a special look for m
 
 Target browsers ars:
 
-* chrome 8
+* chrome 11
 * safari 5
 * firefox 4
 * ie9
@@ -38,7 +38,7 @@ Target browsers ars:
 
 = Element functions:
 
-  is(selector): returns false or the element itself if it matches the selector
+  is(selector): returns false or the element itself as true if it matches the selector
   el(selector): get the first child element matching the selector
   els(selector): get all child Element matching the selector
   hs(el): checks if el is inside the element
@@ -46,13 +46,13 @@ Target browsers ars:
   inj(el,where): injects the element (like ad)
   rm(): remove ths element
 
-  css(name,value): set or get ths a css property
+  css(name,value): set or get ths a css property, usage: css('color') (get), css('color','red'), css({color:'red',opacity:1})
 
   hsCl(class): checks a class name
   adCl(class): adds a class name
   rmCl(class): removes a class name
 
-  on(type, function): add an event listener and remove a function you can call to remove the event listener
+  on(type, function): add an event listener and remove a function you can call to remove the event listener. Usage: on('click',doClick); on('click mouseup',doClick); on({click:doClick,mouseup:doMouseup})
   no(type, function): removes an event listener
   dlg(selector, type, function): make event delegation
   fire(type): triggers an event	
