@@ -91,11 +91,11 @@ The = function(){
         },
         HTMLElement:{ // firefox 4
             insertAdjacentElement: function (pos,parsedNode){
-                var t=this,p=t.p();
+                var t=this;
                 pos=='beforeBegin'&&p.insertBefore(parsedNode,t);
                 pos=='afterBegin'&&t.insertBefore(parsedNode,t.fst());
                 pos=='beforeEnd'&&t.appendChild(parsedNode);
-                pos=='afterEnd'&&t.nxt()?p.insertBefore(parsedNode,t.nxt()):p.appendChild(parsedNode);
+                pos=='afterEnd'&&(t.nxt()?t.p().insertBefore(parsedNode,t.nxt()):t.p().appendChild(parsedNode));
             },
             insertAdjacentHTML: function(where,htmlStr){ // ff is working on it
                 var r = d.createRange();
