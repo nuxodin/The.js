@@ -125,7 +125,7 @@ The = function(){
         nxt(sel,incMe){ return this._walk('nextElementSibling',sel,incMe); },
         p(sel,incMe){ return this._walk('parentNode',sel,incMe); },
         ch(sel){ return sel ? this.ch().is(sel) : $.cNL(this.children); },
-        rm(){ return this.remove(); },
+        rm(){ return this.remove(); }, // todo: no return!?
         hs(el,incMe){ return this===el ? (incMe?this:false) : this.contains(el) && this; },
         ad(el,who){
             var trans = {after:'afterEnd',bottom:'beforeEnd',before:'beforeBegin',top:'afterBegin'};
