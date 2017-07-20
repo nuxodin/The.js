@@ -1,6 +1,3 @@
-// useful: http://kangax.github.com/es5-compat-table/
-// features detect styles: document.documentElement.style.MozTransform !== undefined
-//
 // Object.prototype.forIn = function(callback, self){
 //     for(var key in this)
 //         if(this.hasOwnProperty(key) && callback.call(self || this, this[key], key, this) === false)
@@ -26,7 +23,7 @@ The = function(){
                 var fn = this;
                 return function(){
                     var ret = retConst ? new retConst : [], i=0, el, v;
-                    for(;el=this[i++];){ // return this.map(fn.args(arguments)) ??
+                    while(el=this[i++]){ // return this.map(fn.args(arguments)) ??
                         v = fn.apply(el,arguments);
                         v && ret.push(v);
                     };
